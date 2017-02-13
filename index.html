@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
   <meta charset="UTF-8">
   <title>Puck test</title>
 </head>
 <body>
+  <button type="button" id="BleButton">Enable bluetooth</button>
   <script src="https://www.puck-js.com/puck.js"></script>
   <script type="text/javascript">
-
+    var bleButton = document.getElementById('ble-button')
     // Called when we get a line of data - updates the light color
     function onLine(v) {
       console.log("Received: "+JSON.stringify(v));
@@ -15,31 +16,31 @@
 
     // When clicked, connect or disconnect
     var connection;
-    window.addEventListener("load", function() {
+    bleButton.addEventListener('click', function() {
       if (connection) {
         connection.close();
         connection = undefined;
       }
       Puck.connect(function(c) {
         if (!c) {
-          alert("Couldn't connect!");
+          alert('Couldn\'t connect!');
           return;
         }
         connection = c;
         // Handle the data we get back, and call 'onLine'
         // whenever we get a line
-        var buf = "";
-        connection.on("data", function(d) {
+        var buf = '';
+        connection.on('data', function(d) {
           buf += d;
-          var i = buf.indexOf("\n");
+          var i = buf.indexOf('\n');
           while (i>=0) {
             onLine(buf.substr(0,i));
             buf = buf.substr(i+1);
-            i = buf.indexOf("\n");
+            i = buf.indexOf('\n');
           }
         });
         // First, reset Puck.js
-        connection.write("reset();\n", function() {
+        connection.write('reset();\n', function() {
           // Wait for it to reset itself
         });
       });
