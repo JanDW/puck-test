@@ -44,7 +44,7 @@
         // First, reset Puck.js
         connection.write('reset();\n', function() {
           // Wait for it to reset itself
-          connection.write('setWatch(sendToggle, BTN, { edge:"rising", debounce:50, repeat: true })');
+          connection.write('setWatch(function(){return true;}, BTN, { edge:"rising", debounce:50, repeat: true })');
         });
       });
     });
